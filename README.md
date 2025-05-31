@@ -1,4 +1,7 @@
-# El diagrama general es: 
+# 🧩 Implementación y Modelado de Operaciones Matriciales en C++ con POO Avanzada.
+# Autor Angel Landín López - Estudiante de Ingenería en Tecnologías Computacionales.
+
+## El diagrama general es: 
 
 ```mermaid
 classDiagram
@@ -50,7 +53,7 @@ MatrixOp --> OpFunc : usa
 MatrixOp --> MatrixOp : forEachDiagonal usa printAt
 ```
 
-# Clase Abstracta archivo .h
+## Clase Abstracta archivo .h
 ```cpp
 #ifndef MATRIXOP_H
 #define MATRIXOP_H
@@ -130,7 +133,7 @@ class MatrixOp : public IMatrix {
 #endif  // MATRIXOP_H
 ```
 
-# Archivo interfaz implementacion de metodos, constructores y destructor
+## Archivo interfaz implementacion de metodos, constructores y destructor
 ```cpp
 /**
  * @file MatrixOp.cpp
@@ -290,4 +293,222 @@ double MatrixOp::determinant() const {
         throw logic_error("Implementar para 2×2 o 3×3");
     }
 }
+```
+## Funcion main general (donde se prueba todo el codigo en conjunto)
+```cpp
+/**
+ * @file main.cpp
+ * @brief Punto de entrada del programa.
+ * @date 2025-05-30
+ */
+
+#include <iostream>
+
+#include "MatrixOp.h"
+
+using namespace std;
+
+int main() {
+    cout << "Inicio del programa." << endl;
+
+    MatrixOp M(3, 3);
+    MatrixOp* A = new MatrixOp(3, 3);
+    MatrixOp* F = new MatrixOp(3, 3);
+    MatrixOp* out = new MatrixOp(3, 3);
+
+    cout << "--------------Llenando la primera Matriz-------------------"
+         << endl;
+    A->fillMatrix();
+
+    cout << "--------------Llenando la segunda Matriz-------------------"
+         << endl;
+    F->fillMatrix();
+
+    MatrixOp handler;
+
+    // Mostrar todos los elementos de la matriz
+    for (int i = 0; i < M.getRows(); ++i) {
+        for (int j = 0; j < M.getCols(); ++j) {
+            cout << M.get(i, j) << " ";
+        }
+        cout << endl;
+    }
+
+    // Mostrar el número de filas y columnas
+    cout << "Numero de filas: " << M.getRows() << endl;
+    cout << "Numero de columnas: " << M.getCols() << endl;
+
+    cout << "---------------------Comprobacion funcion apply que hace suma de "
+            "matrices------------------"
+         << endl;
+
+    handler.apply(A, F, out, MatrixOp::sumar);
+
+    for (int i = 0; i < out->getRows(); ++i) {
+        for (int j = 0; j < out->getCols(); ++j) {
+            cout << out->get(i, j) << " ";
+        }
+        cout << endl;
+    }
+
+    // Metodo que me imprime la diagonal principal
+    cout << "-----------------------------Diagonal "
+            "principal--------------------------"
+         << endl;
+    out->forEachDiagonal(&MatrixOp::printAt);
+
+    cout << "----------------------------------------Sobrecarga de "
+            "operadores---------------------------"
+         << endl;
+    // Sobrecarga de operadores
+    MatrixOp sumaMatricial = *A + *F;
+    sumaMatricial.printMatrix();
+
+    cout << "----------------------------------------Sobrecarga de "
+            "operadores resta---------------------------"
+         << endl;
+    MatrixOp restaMatricial = *A - *F;
+    restaMatricial.printMatrix();
+
+    cout << "----------------------------------Función plantilla "
+            "genérica---------------------------------------"
+         << endl;
+
+    // … inicializar z con valores diversos …
+    cout << "-------------------------------------Verificar el maximo valor de "
+            "una Matriz-------------------------------------"
+         << endl;
+
+    MatrixOp Z(3, 3);
+    Z.fillMatrix();
+
+    Z.printMatrix();
+
+    double maxElem = maxValue<double>(Z.data(), Z.size());
+    std::cout << "Máximo elemento de Z: " << maxElem << "\n";
+
+    cout << "-------------------------------------Obtener determinante de una "
+            "Matriz 3x3-------------------------------------"
+         << endl;
+
+    IMatrix* mat = new MatrixOp(3, 3);
+
+    // Hacer cast para usar métodos de MatrixOp
+    MatrixOp* mop = dynamic_cast<MatrixOp*>(mat);
+    if (mop) {
+        mop->fillMatrix();  // ahora sí puedes usar el método
+        std::cout << "Determinante: " << mat->determinant() << "\n";
+    } else {
+        std::cerr << "Error: dynamic_cast falló\n";
+    }
+
+    delete mat;
+    return 0;
+}
+```
+
+## Salida
+```
+Inicio del programa.
+--------------Llenando la primera Matriz-------------------
+Agrega un dato en la posicion [0, 0]:
+9
+Agrega un dato en la posicion [0, 1]: 
+19
+Agrega un dato en la posicion [0, 2]: 
+29
+Agrega un dato en la posicion [1, 0]: 
+39
+Agrega un dato en la posicion [1, 1]: 
+49
+Agrega un dato en la posicion [1, 2]: 
+59
+Agrega un dato en la posicion [2, 0]: 
+69
+Agrega un dato en la posicion [2, 1]: 
+79
+Agrega un dato en la posicion [2, 2]: 
+89
+--------------Llenando la segunda Matriz-------------------
+Agrega un dato en la posicion [0, 0]:
+1
+Agrega un dato en la posicion [0, 1]: 
+1
+Agrega un dato en la posicion [0, 2]: 
+1
+Agrega un dato en la posicion [1, 0]: 
+1
+Agrega un dato en la posicion [1, 1]: 
+1
+Agrega un dato en la posicion [1, 2]: 
+1
+Agrega un dato en la posicion [2, 0]: 
+1
+Agrega un dato en la posicion [2, 1]: 
+1
+Agrega un dato en la posicion [2, 2]: 
+1
+0 0 0 
+0 0 0
+0 0 0
+Numero de filas: 3
+Numero de columnas: 3
+---------------------Comprobacion funcion apply que hace suma de matrices------------------
+10 20 30
+40 50 60
+70 80 90
+-----------------------------Diagonal principal--------------------------
+10 50 90
+----------------------------------------Sobrecarga de operadores---------------------------
+10 20 30
+40 50 60
+70 80 90
+----------------------------------------Sobrecarga de operadores resta---------------------------
+8 18 28
+38 48 58
+68 78 88
+----------------------------------Función plantilla genérica---------------------------------------
+-------------------------------------Verificar el maximo valor de una Matriz-------------------------------------
+Agrega un dato en la posicion [0, 0]:
+23
+Agrega un dato en la posicion [0, 1]: 
+24
+Agrega un dato en la posicion [0, 2]: 
+55
+Agrega un dato en la posicion [1, 0]: 
+12
+Agrega un dato en la posicion [1, 1]: 
+334
+Agrega un dato en la posicion [1, 2]: 
+233
+Agrega un dato en la posicion [2, 0]: 
+4
+Agrega un dato en la posicion [2, 1]: 
+353
+Agrega un dato en la posicion [2, 2]: 
+22
+23 24 55 
+12 334 233
+4 353 22
+Máximo elemento de Z: 353
+-------------------------------------Obtener determinante de una Matriz 3x3-------------------------------------
+Agrega un dato en la posicion [0, 0]:
+3
+Agrega un dato en la posicion [0, 1]: 
+4
+Agrega un dato en la posicion [0, 2]: 
+5
+Agrega un dato en la posicion [1, 0]: 
+3
+Agrega un dato en la posicion [1, 1]: 
+1
+Agrega un dato en la posicion [1, 2]: 
+2
+Agrega un dato en la posicion [2, 0]: 
+4
+Agrega un dato en la posicion [2, 1]: 
+5
+Agrega un dato en la posicion [2, 2]: 
+6
+Determinante: 3
 ```
