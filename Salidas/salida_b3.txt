@@ -1,0 +1,11 @@
+Matriz 2x2
+| 1  2 |
+| 3  4 |
+Determinante 2x2: -2
+
+
+Matriz 3x3
+| 6  1  1 |
+| 4 -2  5 |
+| 2  8  7 |
+Determinante 3x3: -306

@@ -61,8 +61,14 @@ int MatrixOp::getCols() const { return cols_; }
 // MAS FUNCIONALIDADES
 
 void MatrixOp::add(const MatrixOp *other, MatrixOp *result) const {
-    int k = 0 - rows_ * cols_ - 1;
-    result->data_[k] = this->data_[k] + other->data_[k];
+    if (rows_ != other->rows_ || cols_ != other->cols_) {
+        throw invalid_argument("Matrices must have the same dimensions");
+    }
+
+    int total = rows_ * cols_;
+    for (int k = 0; k < total; ++k) {
+        result->data_[k] = this->data_[k] + other->data_[k];
+    }
 }
 
 double MatrixOp::sumar(double a, double b) { return a + b; }

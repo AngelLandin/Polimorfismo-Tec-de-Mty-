@@ -1,0 +1,13 @@
+----------------Datos Matriz A----------------
+5 7
+9 11
+----------------Datos Matriz B----------------
+2 3
+4 5
+Matriz C = A - B:
+3 4
+5 6
+Matriz D = A * B (elemento a elemento):
+10 21
+36 55
+Prueba A3 (apply con sub y mul) pasada correctamente.

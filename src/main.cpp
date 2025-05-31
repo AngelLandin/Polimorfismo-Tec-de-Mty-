@@ -1,7 +1,7 @@
 /**
  * @file main.cpp
  * @brief Punto de entrada del programa.
- * @date YYYY-MM-DD
+ * @date 2025-05-30
  */
 
 #include <iostream>
@@ -13,7 +13,6 @@ using namespace std;
 int main() {
     cout << "Inicio del programa." << endl;
 
-    /*
     MatrixOp M(3, 3);
     MatrixOp* A = new MatrixOp(3, 3);
     MatrixOp* F = new MatrixOp(3, 3);
@@ -73,22 +72,27 @@ int main() {
     MatrixOp restaMatricial = *A - *F;
     restaMatricial.printMatrix();
 
-    */
-
     cout << "----------------------------------Función plantilla "
             "genérica---------------------------------------"
          << endl;
 
-    // … inicializar M con valores diversos …
-    /*
-    MatrixOp M(3, 3);
-    M.fillMatrix();
+    // … inicializar z con valores diversos …
+    cout << "-------------------------------------Verificar el maximo valor de "
+            "una Matriz-------------------------------------"
+         << endl;
 
-    M.printMatrix();
+    MatrixOp Z(3, 3);
+    Z.fillMatrix();
 
-    double maxElem = maxValue<double>(M.data(), M.size());
-    std::cout << "Máximo elemento de M: " << maxElem << "\n";
-*/
+    Z.printMatrix();
+
+    double maxElem = maxValue<double>(Z.data(), Z.size());
+    std::cout << "Máximo elemento de Z: " << maxElem << "\n";
+
+    cout << "-------------------------------------Obtener determinante de una "
+            "Matriz 3x3-------------------------------------"
+         << endl;
+
     IMatrix* mat = new MatrixOp(3, 3);
 
     // Hacer cast para usar métodos de MatrixOp
